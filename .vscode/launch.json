@@ -1,0 +1,66 @@
+{
+  "configurations": [
+    {
+      "type": "aws-sam",
+      "request": "direct-invoke",
+      "name": "Invoke Lambda",
+      "invokeTarget": {
+        "target": "code",
+        "lambdaHandler": "index.handler",
+        "projectRoot": "${workspaceFolder}"
+      },
+      "lambda": {
+        "runtime": "Lambda Runtime",
+        "payload": {
+          "json": {}
+        }
+      }
+    },
+    {
+      "type": "aws-sam",
+      "request": "direct-invoke",
+      "name": "resources:index.handler (nodejs10.x)",
+      "invokeTarget": {
+        "target": "code",
+        "projectRoot": "resources/DQMCTraining",
+        "lambdaHandler": "index.handler"
+      },
+      "lambda": {
+        "runtime": "nodejs10.x",
+        "payload": {},
+        "environmentVariables": {}
+      }
+    },
+    {
+      "type": "aws-sam",
+      "request": "direct-invoke",
+      "name": "Invoke Lambda",
+      "invokeTarget": {
+        "target": "code",
+        "lambdaHandler": "index.main",
+        "projectRoot": "${workspaceFolder}"
+      },
+      "lambda": {
+        "runtime": "Lambda Runtime",
+        "payload": {
+          "json": {}
+        }
+      }
+    },
+    {
+      "type": "aws-sam",
+      "request": "direct-invoke",
+      "name": "resources:index.main (nodejs10.x)",
+      "invokeTarget": {
+        "target": "code",
+        "projectRoot": "resources/DQMCTraining",
+        "lambdaHandler": "index.main"
+      },
+      "lambda": {
+        "runtime": "nodejs10.x",
+        "payload": {},
+        "environmentVariables": {}
+      }
+    }
+  ]
+}
