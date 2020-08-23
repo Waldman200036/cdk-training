@@ -30,11 +30,15 @@ rds.deregisterDBProxyTargets(params, function (err, data) {
 In order to ensure that the RDS object uses this specific API, you can construct the object by passing the apiVersion option to the constructor:
 
 var rds = new AWS.RDS({apiVersion: '2014-10-31'});
+
 You can also set the API version globally in AWS.config.apiVersions using the rds service identifier:
 
 AWS.config.apiVersions = {
+
   rds: '2014-10-31',
+  
   // other service API versions
+  
 };
 
 var rds = new AWS.RDS();
@@ -86,7 +90,7 @@ def execute_statement(sql):
 
     This function takes a SQL statement as an input parameter, executes the statement against the Aurora Serverless database, and returns a raw response object. I use this function in several examples that follow.
 
-Example 1 – Issuing DDL commands to create the database and a table
+## Example 1 – Issuing DDL commands to create the database and a table
 You can now use the wrapper execute_statement() function to execute DDL commands. For instance, create a database table.
 
 First, create a file with the following content and name it package_table.sql:
@@ -112,13 +116,13 @@ with open(table_ddl_script_file, 'r') as ddl_script:
 
     To create multiple tables, you can use an array to iterate through multiple DDL .sql files and use function execute_statement(), again. For more information, see the aws-aurora-serverless-data-api-sam GitHub repo.
 
-Example 2 – Creating a simple query
+## Example 2 – Creating a simple query
 Now use the function execute_statement() to run a simple query and print the raw results returned in the standard output:
 
 response = execute_statement('select * from package')
 print(response['records'])
 
-Example 3 – Creating a parameterized query
+## Example 3 – Creating a parameterized query
 The RDSDataService client also supports parameterized queries by allowing you to use placeholder parameters in SQL statements. Escaped input values permit the resolution of these parameters at runtime. Parameterized queries are useful to prevent SQL injection attacks.
 
 For instance, the following SQL query uses a parameter called package_name. It’s a placeholder for a package name that resolves at runtime when the query is executed using the value from variable package_name.
@@ -141,23 +145,23 @@ def execute_statement(sql, sql_parameters=[]):
     )
     return response
 
-    Example 4 – Formatting query results
+## Example 4 – Formatting query results
 As you’ve probably noticed already, the function execute_statement() returns raw results that likely need parsing and formatting before use. The following code example uses a couple of small Python functions (formatRecords(), formatRecord() and, formatField()) to format a list of returned records by processing individual records and fields.
 
-# Formatting query returned Field
+### Formatting query returned Field
 def formatField(field):
    return list(field.values())[0]
-# Formatting query returned Record
+### Formatting query returned Record
 def formatRecord(record):
    return [formatField(field) for field in record]
-# Formatting query returned Field
+### Formatting query returned Field
 def formatRecords(records):
    return [formatRecord(record) for record in records]
 sql = 'select package_name, package_version from package'
 response = execute_statement(sql)
 print(formatRecords(response['records']))
 
-Example 5 – Creating a parameterized SQL insert
+## Example 5 – Creating a parameterized SQL insert
 You can also parameterize other SQL statements, including insert statements. For example, the following code example uses the execute_statement() function to insert tuple (“package-2”, “version-1”) into the package table.
 
 sql = 'insert into package (package_name, package_version) values (:package_name, :package_version)'
@@ -168,7 +172,7 @@ sql_parameters = [
 response = execute_statement(sql, sql_parameters)
 print(f'Number of records updated: {response["numberOfRecordsUpdated"]}')
 
-Example 6 – Batching SQL inserts
+## Example 6 – Batching SQL inserts
 The Data API also supports batching by executing a SQL statement multiple times against a set of specified parameters using a single API call. Batching can lead to significant performance gains, as the overall network time to process multiple SQL statements is drastically reduced (for example, inserting hundreds of rows in a table).
 
 The RDSDataService’s batch_execute_statement() function makes these gains possible. This function takes similar parameters as the execute_statement() function but uses a two-dimensional array for the list of parameterized values.
@@ -200,7 +204,7 @@ sql = 'insert into package (package_name, package_version) values (:package_name
     response = batch_execute_statement(sql, sql_parameter_sets)
     print(f'Number of records updated: {len(response["updateResults"])}')
 
-    Example 7 – Handling exceptions
+## Example 7 – Handling exceptions
 Now, create a specific exception type to raise and catch database-related errors in your code. Start by creating a simple class DataAccessLayerException, as shown in the following code example:
 
 class DataAccessLayerException(Exception):
