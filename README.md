@@ -17,9 +17,13 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
 ## Sending a Request Using RDS
 `var rds = new AWS.RDS();
+
 rds.deregisterDBProxyTargets(params, function (err, data) {
+ 
   if (err) console.log(err, err.stack); // an error occurred
+  
   else     console.log(data);           // successful response
+  
 });`
 
 ## Locking the API Version
