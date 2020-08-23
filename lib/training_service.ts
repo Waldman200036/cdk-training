@@ -18,7 +18,7 @@ export class trainingService extends core.Construct {
     });
 
     const getTrainingsIntegration = new apigateway.LambdaIntegration(handler, {
-      requestTemplates: { "application/html": '{ "statusCode": "200" }' }
+      requestTemplates: { "application/json": '{ "statusCode": "200" }' }
     });
 
     api.root.addMethod("GET", getTrainingsIntegration); // GET /
