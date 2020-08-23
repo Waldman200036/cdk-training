@@ -263,29 +263,29 @@ def batch_execute_statement(sql, sql_parameter_sets, transaction_id=None):
 
 In the code example, the transaction_id passes to function batch_execute_statement() using the transaction object returned by function begin_transaction().
 
-transaction = rds_client.begin_transaction(
-     secretArn=db_credentials_secrets_store_arn,
-     resourceArn=db_cluster_arn,
-     database=database_name)
-try:
-    sql = 'insert into package (package_name, package_version) values (:package_name, :package_version)'
-    sql_parameter_sets = []
-    for i in range(30,40):
-        entry = [
-                {'name':'package_name', 'value':{'stringValue': f'package{i}'}},
-                {'name':'package_version', 'value':{'stringValue': 'version-1'}}
-        ] sql_parameter_sets.append(entry)
-    response = batch_execute_statement(sql, sql_parameter_sets, transaction['transactionId'])
-except Exception:
-    transaction_response = rds_client.rollback_transaction(
-        secretArn=db_credentials_secrets_store_arn,
-        resourceArn=db_cluster_arn,
-        transactionId=transaction['transactionId'])
-else:
-    transaction_response = rds_client.commit_transaction(
-        secretArn=db_credentials_secrets_store_arn,
-        resourceArn=db_cluster_arn,
-        transactionId=transaction['transactionId'])
-    print(f'Number of records updated: {len(response["updateResults"])}')
-print(f'Transaction Status: {transaction_response["transactionStatus"]}')
-Conclusion
+        transaction = rds_client.begin_transaction(
+             secretArn=db_credentials_secrets_store_arn,
+             resourceArn=db_cluster_arn,
+             database=database_name)
+        try:
+            sql = 'insert into package (package_name, package_version) values (:package_name, :package_version)'
+            sql_parameter_sets = []
+            for i in range(30,40):
+                entry = [
+                        {'name':'package_name', 'value':{'stringValue': f'package{i}'}},
+                        {'name':'package_version', 'value':{'stringValue': 'version-1'}}
+                ] sql_parameter_sets.append(entry)
+            response = batch_execute_statement(sql, sql_parameter_sets, transaction['transactionId'])
+        except Exception:
+            transaction_response = rds_client.rollback_transaction(
+                secretArn=db_credentials_secrets_store_arn,
+                resourceArn=db_cluster_arn,
+                transactionId=transaction['transactionId'])
+        else:
+            transaction_response = rds_client.commit_transaction(
+                secretArn=db_credentials_secrets_store_arn,
+                resourceArn=db_cluster_arn,
+                transactionId=transaction['transactionId'])
+            print(f'Number of records updated: {len(response["updateResults"])}')
+        print(f'Transaction Status: {transaction_response["transactionStatus"]}')
+        Conclusion
