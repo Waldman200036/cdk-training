@@ -12,14 +12,15 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
  * `cdk deploy`      deploy this stack to your default AWS account/region
  * `cdk diff`        compare deployed stack with current state
  * `cdk synth`       emits the synthesized CloudFormation template
-# cdk-training
+
+# Class: AWS.RDS
 
 ## Sending a Request Using RDS
-var rds = new AWS.RDS();
+`var rds = new AWS.RDS();
 rds.deregisterDBProxyTargets(params, function (err, data) {
   if (err) console.log(err, err.stack); // an error occurred
   else     console.log(data);           // successful response
-});
+});`
 
 ## Locking the API Version
 In order to ensure that the RDS object uses this specific API, you can construct the object by passing the apiVersion option to the constructor:
