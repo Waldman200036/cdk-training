@@ -8,7 +8,7 @@ export class trainingService extends core.Construct {
 
     const handler = new lambda.Function(this, "trainingHandler", {
       runtime: lambda.Runtime.NODEJS_10_X, // So we can use async in widget.js
-      code: lambda.Code.asset("resources/DQMCTraining"),
+      code: lambda.Code.asset("resources/lambda"),
       handler: "index.main",
     });
 
